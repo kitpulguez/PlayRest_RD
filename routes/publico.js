@@ -1,5 +1,9 @@
 const express = require('express');
 const Juego = require('../models/juego');
+const mongoose = require('mongoose');
+const Usuario = require(__dirname + '/../models/usuario');
+
+mongoose.connect('mongodb://mymongodb/playrest_v3');
 
 let router = express.Router();
 
@@ -33,6 +37,17 @@ router.get('/juegos/:id', (req, res) => {
     }).catch (error => {
         res.render("publico_error", {error: "Juego no encontrado"});
     }); 
+});
+
+router.get('/usuarios', (req, res) => {
+    Usuario.collection.drop();
+
+    let usu1 = new Usuario({
+    login: 'Rocio_a_donde_Bas',
+    password: '12345678'
+    });
+
+    usu1.save();
 });
 
 module.exports = router;
